@@ -163,4 +163,9 @@ public class SignFragment extends BaseFragment implements UserContract.SignView 
     public void showMessage(String msg) {
         SnackbarUtils.showShortSnackbar(getVerificationCode, msg, ContextCompat.getColor(getContext(), R.color.topbar_txt_color), ContextCompat.getColor(getContext(), R.color.red));
     }
+
+    @Override
+    public void startActivity() {
+
+    }
 }

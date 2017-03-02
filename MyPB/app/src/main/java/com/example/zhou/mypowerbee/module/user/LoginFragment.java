@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.example.zhou.mypowerbee.R;
 import com.example.zhou.mypowerbee.sdk.core.HttpEngine;
+import com.example.zhou.mypowerbee.sdk.core.ServiceEngiine;
 import com.example.zhou.mypowerbee.ui.BaseFragment;
 import com.example.zhou.mypowerbee.util.ToastUtil;
 import com.example.zhou.mypowerbee.util.ValidateUtil;
@@ -106,5 +107,10 @@ public class LoginFragment extends BaseFragment implements UserContract.View {
     @Override
     public void showMessage(String msg) {
 
+    }
+
+    @Override
+    public void startActivity() {
+        ServiceEngiine.getServiceEngiine().startService(getContext());
     }
 }

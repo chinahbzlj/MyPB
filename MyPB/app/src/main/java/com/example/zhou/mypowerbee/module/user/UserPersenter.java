@@ -10,6 +10,7 @@ import com.example.zhou.mypowerbee.common.BaseSubscriber;
 import com.example.zhou.mypowerbee.common.Constants;
 import com.example.zhou.mypowerbee.model.entity.UserInfoDTO;
 import com.example.zhou.mypowerbee.model.entity.VidInfoDTO;
+import com.example.zhou.mypowerbee.sdk.core.ServiceEngiine;
 import com.example.zhou.mypowerbee.sdk.define.RequestServers;
 import com.example.zhou.mypowerbee.sdk.define.RetrofitHelper;
 import com.example.zhou.mypowerbee.util.SnackbarUtils;
@@ -66,7 +67,9 @@ public class UserPersenter implements UserContract.Persenter {
     @Override
     public void login(String loginAccountText, String loginPassText) {
         RequestServers requestServers = RetrofitHelper.getInstance().getDefaultRxApi();
-        requestServers.userLogin(loginAccountText, loginPassText).subscribeOn(Schedulers.io())
+        requestServers.userLogin(loginAccountText, loginPassText)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<Result<UserInfoDTO>, Result<UserInfoDTO>>() {
                     @Override
                     public Result<UserInfoDTO> call(Result<UserInfoDTO> userInfoDTOResult) {
@@ -74,7 +77,7 @@ public class UserPersenter implements UserContract.Persenter {
                         if (userInfoDTOResponse.body() != null) {
                             UserInfoDTO userInfoDTO = userInfoDTOResponse.body();
                             if (userInfoDTO.isSuccess()) {
-
+                                view.startActivity();
                             }
                         }
                         return userInfoDTOResult;

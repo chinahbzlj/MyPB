@@ -11,6 +11,9 @@ import com.example.zhou.mypowerbee.model.entity.UserInfoDTO;
 public interface UserContract {
     interface View extends BaseView<Persenter> {
         void showMessage(String msg);
+
+        void startActivity();
+
     }
 
     interface SignView extends View {
@@ -34,5 +37,6 @@ public interface UserContract {
         void getVid(String account);
 
         void register(UserInfoDTO.UserDTO userDTO, String vid, String verificationCode);
+
     }
 }
