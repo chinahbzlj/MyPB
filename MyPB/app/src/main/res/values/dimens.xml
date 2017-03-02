@@ -1,0 +1,39 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+
+    <dimen name="margin_min">6dp</dimen>
+    <dimen name="margin_middle">12dp</dimen>
+    <dimen name="margin_max_max">54dp</dimen>
+    <dimen name="margin_max_max_little">46dp</dimen>
+    <dimen name="margin_max">24dp</dimen>
+    <dimen name="padding_small_min">4dp</dimen>
+    <dimen name="padding_min">6dp</dimen>
+    <dimen name="padding_middle">12dp</dimen>
+    <dimen name="padding_max">18dp</dimen>
+
+    <!-- login -->
+    <dimen name="default_icon_layout_height">210dp</dimen>
+    <dimen name="edit_layout_height">40dp</dimen>
+    <dimen name="edit_layout_margin_top">10dp</dimen>
+    <dimen name="edit_layout_margin_left_right">30dp</dimen>
+    <dimen name="edit_text_paddingleft">10dp</dimen>
+    <dimen name="login_sign_margin_top">40dp</dimen>
+    <dimen name="signup_margin_top">60dp</dimen>
+    <!-- text -->
+    <dimen name="text_size_more_small">12sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_middle">16sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_m_large">20sp</dimen>
+    <dimen name="text_size_more_large">24sp</dimen>
+    <dimen name="text_size_most_large">26sp</dimen>
+    <dimen name="text_size_most_large_m">60sp</dimen>
+    <dimen name="register_margin_top">40dp</dimen>
+</resources>
