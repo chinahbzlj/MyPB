@@ -99,6 +99,7 @@ public class SyncUtil {
     }
 
     private void syncDevice() {
-
+        RetrofitHelper.getInstance().getHaveHeaderRxApi().getAllDevices();
     }
+
 }
