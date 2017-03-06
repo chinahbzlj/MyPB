@@ -15,7 +15,7 @@ android {
         }
     }
     defaultConfig {
-        applicationId "com.example.zhou.mypowerbee"
+        applicationId "com.zhou.mypowerbee"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
@@ -48,7 +48,7 @@ buildscript {
 
 greendao {
     schemaVersion 1
-    daoPackage 'com.example.zhou.mypowerbee.gen'
+    daoPackage 'com.zhou.mypowerbee.gen'
     targetGenDir 'src/main/java'
 }
 dependencies {

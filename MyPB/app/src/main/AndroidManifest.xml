@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.zhou.mypowerbee">
+    package="com.zhou.mypowerbee">
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- 写入数据权限 内置存储卡WRITE_EXTERNAL_STORAGE  外置存储卡 MOUNT_UNMOUNT_FILESYSTEMS-->
