@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="tab"><!--
+        <attr name="tabTextColor" format="color"></attr>
+        <attr name="tabTextSize" format="dimension"></attr>
+        <attr name="tabText" format="string"></attr>
+        <attr name="tabImg" format="reference"></attr>-->
+    </declare-styleable>
+</resources>

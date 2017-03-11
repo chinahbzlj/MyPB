@@ -1,7 +1,6 @@
 package com.zhou.mypowerbee.module.user;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -9,19 +8,18 @@ import android.view.View;
 
 import com.zhou.mypowerbee.R;
 import com.zhou.mypowerbee.module.welcome.WelcomeActivity;
-import com.zhou.mypowerbee.sdk.core.ServiceEngiine;
-import com.zhou.mypowerbee.ui.BaseFragment;
-import com.zhou.mypowerbee.ui.CheckPermissionsActivity;
-import com.zhou.mypowerbee.ui.MainActivity;
+import com.zhou.mypowerbee.service.ServiceEngine;
+import com.zhou.mypowerbee.common.BaseFragment;
+import com.zhou.mypowerbee.common.CheckPermissionsActivity;
 
 /**
  * Created by zhou on 17-2-16.
  */
 
 public class LoginSignActivity extends CheckPermissionsActivity implements ICallBack {
-    private Fragment mFragment;
     private MyFragmentManager myFragmentManager;
     private UserPersenter persenter;
+    private boolean isLoginSuccess = false;
 
     @Override
     public int bindLayout() {
@@ -36,10 +34,12 @@ public class LoginSignActivity extends CheckPermissionsActivity implements ICall
     @Override
     public void doBusiness(Context mContext) {
         LoginFragment loginFragment = new LoginFragment();
+        loginFragment.setContext(mContext);
         persenter = new UserPersenter(loginFragment);
         myFragmentManager = new MyFragmentManager();
         myFragmentManager.setCallBack(this);
         myFragmentManager.setFragment(loginFragment);
+        ServiceEngine.getServiceEngine().startService(getApplicationContext());
     }
 
     @Override
@@ -78,10 +78,14 @@ public class LoginSignActivity extends CheckPermissionsActivity implements ICall
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ServiceEngiine.getServiceEngiine().interuptService();
+        persenter.detach();
+        myFragmentManager.clear();
+        if (!isLoginSuccess)
+            ServiceEngine.getServiceEngine().interuptService(getApplicationContext());
     }
 
     public void loginSucces() {
+        isLoginSuccess = true;
         startActivity(WelcomeActivity.class);
         this.finish();
     }

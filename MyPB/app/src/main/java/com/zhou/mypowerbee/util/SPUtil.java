@@ -11,6 +11,7 @@ public class SPUtil {
     //用户uuid
     private static final String UUID = "uuid";
     private static final String TOKEN = "token";
+    private static final String USERNAME = "username";
     private static SPUtil spUtil;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -32,7 +33,7 @@ public class SPUtil {
     public void init(String spName, Context context) {
         sharedPreferences = context.getSharedPreferences(spName, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        editor.apply();
+//        editor.apply();
     }
 
     /**
@@ -70,6 +71,14 @@ public class SPUtil {
     public void putString(String key, String value) {
         editor.putString(key, value);
         editor.apply();
+    }
+
+    public void putUserName(String userName) {
+        putString(USERNAME, userName);
+    }
+
+    public String getUserName() {
+        return getString(USERNAME, null);
     }
 
     public void putInt(String key, int value) {

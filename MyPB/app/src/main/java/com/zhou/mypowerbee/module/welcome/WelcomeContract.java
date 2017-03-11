@@ -10,7 +10,7 @@ import com.zhou.mypowerbee.common.BaseView;
 public class WelcomeContract {
 
     interface View extends BaseView {
-
+        void syncSuccess();
     }
 
     interface Persenter extends BasePersenter {

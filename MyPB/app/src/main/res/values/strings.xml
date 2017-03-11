@@ -36,4 +36,10 @@
     <string name="register">register</string>
     <string name="email_prompt">Incorrect mailbox format!</string>
     <string name="code_prompt">验证码不能为空！</string>
+    <string name="home">首页</string>
+    <string name="title">title</string>
+    <string name="fragmennt">fragment</string>
+    <string name="scene">场景</string>
+    <string name="timer">定时器</string>
+    <string name="sensor">传感器</string>
 </resources>

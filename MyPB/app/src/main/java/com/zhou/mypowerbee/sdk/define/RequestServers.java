@@ -1,19 +1,13 @@
 package com.zhou.mypowerbee.sdk.define;
 
-import com.zhou.mypowerbee.model.entity.DeviceInfoDTO;
-import com.zhou.mypowerbee.model.entity.GroupInfoDTO;
-import com.zhou.mypowerbee.model.entity.NodeInfoDTO;
-import com.zhou.mypowerbee.model.entity.TerminalInfoDTO;
-import com.zhou.mypowerbee.model.entity.UserInfoDTO;
-import com.zhou.mypowerbee.model.entity.VidInfoDTO;
-import com.zhou.mypowerbee.sdk.dto.UserDTO;
+import com.zhou.mypowerbee.model.dto.DeviceInfoDTO;
+import com.zhou.mypowerbee.model.dto.GroupInfoDTO;
+import com.zhou.mypowerbee.model.dto.NodeInfoDTO;
+import com.zhou.mypowerbee.model.dto.TerminalInfoDTO;
+import com.zhou.mypowerbee.model.dto.UserInfoDTO;
+import com.zhou.mypowerbee.model.dto.VidInfoDTO;
 import com.zhou.mypowerbee.sdk.netlog.NetConfigFile;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-
-import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.adapter.rxjava.Result;
@@ -56,8 +50,7 @@ public interface RequestServers {
                                      @Header("code") String code);
 
     @GET("terminal")
-    Observable<TerminalInfoDTO> getTerminal(
-    );
+    Observable<TerminalInfoDTO> getTerminal();
 
     @GET("device/group")
     Observable<GroupInfoDTO> getGroup(
@@ -76,6 +69,7 @@ public interface RequestServers {
 
     //获取传感器
     @GET("device/1")
+    Observable<DeviceInfoDTO> getSensorDevices();
 
     @FormUrlEncoded
     @POST("card/getPublicCard")

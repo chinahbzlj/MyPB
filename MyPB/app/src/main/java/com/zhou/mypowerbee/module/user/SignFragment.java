@@ -14,13 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.zhou.mypowerbee.R;
-import com.zhou.mypowerbee.model.entity.UserInfoDTO;
-import com.zhou.mypowerbee.ui.BaseFragment;
+import com.zhou.mypowerbee.model.dto.UserInfoDTO;
+import com.zhou.mypowerbee.common.BaseFragment;
 import com.zhou.mypowerbee.util.LoadImageUtil;
 import com.zhou.mypowerbee.util.SnackbarUtils;
-import com.zhou.mypowerbee.util.ToastUtil;
 import com.zhou.mypowerbee.util.ValidateUtil;
 
 import butterknife.BindView;
@@ -53,6 +51,7 @@ public class SignFragment extends BaseFragment implements UserContract.SignView 
     private UserContract.Persenter userPersenter;
     private String nameGetVerfication;
     private String vid;
+    private Context context;
 
     @Override
     public int bindLayout() {
@@ -63,10 +62,11 @@ public class SignFragment extends BaseFragment implements UserContract.SignView 
     public void initView(View view) {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolBar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolBar.setTitle("");
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.getInstance().toastShowS("返回");
+                ((LoginSignActivity) context).getMyFragmentManager().gotoBlack();
             }
         });
     }
@@ -163,7 +163,7 @@ public class SignFragment extends BaseFragment implements UserContract.SignView 
 
     @Override
     public void loginSuccess() {
-        ((LoginSignActivity) getActivity()).loginSucces();
+        ((LoginSignActivity) context).loginSucces();
     }
 
     @Override
@@ -174,5 +174,9 @@ public class SignFragment extends BaseFragment implements UserContract.SignView 
     @Override
     public void startActivity() {
 
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 }

@@ -5,27 +5,20 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.content.ContextCompat;
 
-import com.zhou.mypowerbee.R;
 import com.zhou.mypowerbee.app.MyApplication;
-import com.zhou.mypowerbee.app.MyGlobal;
 import com.zhou.mypowerbee.common.BaseSubscriber;
 import com.zhou.mypowerbee.common.Constants;
-import com.zhou.mypowerbee.model.entity.UserInfoDTO;
-import com.zhou.mypowerbee.model.entity.VidInfoDTO;
-import com.zhou.mypowerbee.sdk.core.ServiceEngiine;
+import com.zhou.mypowerbee.model.dto.UserInfoDTO;
+import com.zhou.mypowerbee.model.dto.VidInfoDTO;
+import com.zhou.mypowerbee.model.serviceread.UserLoginReadMsg;
+import com.zhou.mypowerbee.model.servicesend.LoginSuccessSendMsg;
 import com.zhou.mypowerbee.sdk.define.RequestServers;
 import com.zhou.mypowerbee.sdk.define.RetrofitHelper;
-import com.zhou.mypowerbee.util.SPUtil;
-import com.zhou.mypowerbee.util.SnackbarUtils;
-import com.zhou.mypowerbee.util.ToastUtil;
+import com.zhou.mypowerbee.service.ServiceEngine;
 import com.orhanobut.logger.Logger;
+import com.zhou.mypowerbee.util.ToastUtil;
 
-import java.io.IOException;
-
-import io.netty.util.internal.StringUtil;
-import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.adapter.rxjava.Result;
 import rx.android.schedulers.AndroidSchedulers;
@@ -40,23 +33,38 @@ import rx.subscriptions.CompositeSubscription;
 public class UserPersenter implements UserContract.Persenter {
     private UserContract.View view;
     private UserContract.SignView signView;
+    private CompositeSubscription cs;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            if (msg.obj instanceof LoginSuccessSendMsg) {
+                if (view != null) {
+                    view.loginSuccess();
+                } else if (signView != null) {
+                    signView.loginSuccess();
+                }
+                ServiceEngine.getServiceEngine().removeListenerHandler(handler);
+            }
         }
     };
     //    CompositeSubscription cs;
     private String vid;
 
     public UserPersenter(UserContract.View view) {
-//        cs = new CompositeSubscription();
         replaceView(view);
+        ServiceEngine.getServiceEngine().addListenerHandler(handler);
+        cs = new CompositeSubscription();
     }
 
     @Override
     public void start() {
 
+    }
+
+    @Override
+    public void detach() {
+        cs.unsubscribe();
     }
 
     @Override
@@ -73,7 +81,7 @@ public class UserPersenter implements UserContract.Persenter {
     @Override
     public void login(String loginAccountText, String loginPassText) {
         RequestServers requestServers = RetrofitHelper.getInstance().getDefaultRxApi();
-        requestServers.userLogin(loginAccountText, loginPassText)
+        cs.add(requestServers.userLogin(loginAccountText, loginPassText)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<Result<UserInfoDTO>, Result<UserInfoDTO>>() {
@@ -84,13 +92,8 @@ public class UserPersenter implements UserContract.Persenter {
                             Response<UserInfoDTO> userInfoDTOResponse = userInfoDTOResult.response();
                             if (userInfoDTOResponse != null) {
                                 UserInfoDTO userInfoDTO = userInfoDTOResponse.body();
-                                UserInfoDTO.UserDTO userdto = userInfoDTO.Data;
                                 if (userInfoDTO.isSuccess()) {
-                                    view.startActivity();
-                                    SPUtil.getSpUtil().putUUID(userdto.getUuid());
-                                    SPUtil.getSpUtil().putToken(userInfoDTO.Expand);
-                                    RetrofitHelper.getInstance().setTokenAndUid(userdto.getUuid(),userInfoDTO.Expand);
-                                    RetrofitHelper.getInstance().setTokenAndUid(userdto.getUuid(),userInfoDTO.Expand);
+                                    sendUserInfoToService(userInfoDTO);
                                 }
                             }
                         } else {
@@ -103,11 +106,15 @@ public class UserPersenter implements UserContract.Persenter {
                     @Override
                     public void onNext(Result<UserInfoDTO> userInfoDTOResult) {
                         Response<UserInfoDTO> userInfoDTOResponse = userInfoDTOResult.response();
-//                        UserInfoDTO userInfoDTO = userInfoDTOResponse.body();
-//                        ToastUtil.getInstance().toastShowS("登陆成功！");
-                        view.loginSuccess();
+//                        view.loginSuccess();
                     }
-                });
+                }));
+    }
+
+    public void sendUserInfoToService(UserInfoDTO userInfoDTO) {
+        UserLoginReadMsg userLoginReadMsg = new UserLoginReadMsg(userInfoDTO.Data.getUuid(), userInfoDTO.Expand, userInfoDTO.Data.getUserid());
+        ServiceEngine.getServiceEngine().sendDataToService(userLoginReadMsg);
+
     }
 
     @Override
@@ -117,33 +124,11 @@ public class UserPersenter implements UserContract.Persenter {
 
     @Override
     public void getVerficationCode(String vid) {
-//        cs.add(
-//        RetrofitHelper.getInstance().getDefaultRxApi()
-//                .getverficationCode(vid)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new BaseSubscriber<ResponseBody>() {
-//                    @Override
-//                    public void onNext(ResponseBody responseBody) {
-//                        try {
-//                            signView.setVerficationCode(responseBody.bytes());
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                        try {
-//                            Logger.d("下载文件类型", String.valueOf(responseBody.contentLength()) + String.valueOf(responseBody.bytes().length));
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                })
-////        )
-//        ;
     }
 
     @Override
     public void getVid(String account) {
-        RetrofitHelper.getInstance().getDefaultRxApi()
+        cs.add(RetrofitHelper.getInstance().getDefaultRxApi()
                 .getVid(account)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -159,23 +144,23 @@ public class UserPersenter implements UserContract.Persenter {
                             signView.showMessage(vidInfoDTO.Message);
                         }
                     }
-                });
+                }));
     }
 
     @Override
     public void register(UserInfoDTO.UserDTO userDTO, String vid, String verificationCode) {
-        RetrofitHelper.getInstance().getDefaultRxApi().register(userDTO, this.vid, verificationCode)
+        cs.add(RetrofitHelper.getInstance().getDefaultRxApi().register(userDTO, this.vid, verificationCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<UserInfoDTO>() {
                     @Override
                     public void onNext(UserInfoDTO userInfoDTO) {
                         if (userInfoDTO.isSuccess()) {
-//                            Logger
+                            sendUserInfoToService(userInfoDTO);
                         } else {
                             signView.showMessage(userInfoDTO.Message);
                         }
                     }
-                });
+                }));
     }
 }

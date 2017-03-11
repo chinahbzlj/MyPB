@@ -6,7 +6,7 @@
     <!-- 写入数据权限 内置存储卡WRITE_EXTERNAL_STORAGE  外置存储卡 MOUNT_UNMOUNT_FILESYSTEMS-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" />
+    <!--<uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" />-->
     <!-- 创建删除文件权限  -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <!-- 网络请求  -->
@@ -22,9 +22,10 @@
         <service
             android:name=".service.MyService"
             android:exported="false" />
+
         <activity
             android:name=".module.user.LoginSignActivity"
-            android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
@@ -32,13 +33,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity-->
-        <!--android:name=".ui.DemoActivity"-->
-        <!--android:screenOrientation="portrait" />-->
         <activity
-            android:name=".ui.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".module.welcome.WelcomeActivity" />
+            android:name=".module.main.MainActivity"
+            android:label=""
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".module.welcome.WelcomeActivity"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

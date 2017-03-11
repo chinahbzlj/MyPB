@@ -5,16 +5,34 @@
     android:id="@+id/content_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/white"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.zhou.mypowerbee.ui.MainActivity"
+    tools:context="com.zhou.mypowerbee.module.main.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
-</RelativeLayout>
+
+    <com.zhou.mypowerbee.widget.MyTabLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:scrollbars="none"
+        app:tabGravity="fill"
+        app:tabIndicatorHeight="0dp"
+        app:tabTextColor="@color/text_color_grey"
+        app:tabSelectedTextColor="@color/topbar_bg"
+        app:tabMode="fixed" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/tab"
+        android:background="@color/gray" />
+
+    <com.zhou.mypowerbee.widget.MyViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/line"></com.zhou.mypowerbee.widget.MyViewPager>
+</RelativeLayout><!--android:layout_height="?attr/tabIndicatorHeight"-->

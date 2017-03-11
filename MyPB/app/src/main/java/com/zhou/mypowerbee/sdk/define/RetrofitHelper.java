@@ -10,6 +10,7 @@ import com.zhou.mypowerbee.common.Constants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.orhanobut.logger.Logger;
+import com.zhou.mypowerbee.model.serviceread.UserLoginReadMsg;
 
 import java.io.File;
 import java.io.IOException;
@@ -105,6 +106,33 @@ public class RetrofitHelper {
                 Request request = chain.request().newBuilder()
                         .header("uid", uid)
                         .header("token", token)
+                        .build();
+                Response response = chain.proceed(request);
+                looger(request, response);
+                return chain.proceed(request);
+            }
+        };
+        Context context = MyApplication.getInstance().getApplicationContext();
+        File[] file = context.getExternalCacheDirs();
+        if (headerOkHttpClient != null)
+            headerOkHttpClient = null;
+        headerOkHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor)
+                .cache(new Cache(file[0], 20 * 1024 * 1024))
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .build();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void setTokenAndUid(final UserLoginReadMsg uid) {
+        Interceptor interceptor = new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request request = chain.request().newBuilder()
+                        .header("uid", uid.userId)
+                        .header("token", uid.token)
+                        .header("name", uid.name)
                         .build();
                 Response response = chain.proceed(request);
                 looger(request, response);

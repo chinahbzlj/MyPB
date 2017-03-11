@@ -2,7 +2,7 @@ package com.zhou.mypowerbee.module.user;
 
 import com.zhou.mypowerbee.common.BasePersenter;
 import com.zhou.mypowerbee.common.BaseView;
-import com.zhou.mypowerbee.model.entity.UserInfoDTO;
+import com.zhou.mypowerbee.model.dto.UserInfoDTO;
 
 /**
  * Created by zhou on 17-2-26.

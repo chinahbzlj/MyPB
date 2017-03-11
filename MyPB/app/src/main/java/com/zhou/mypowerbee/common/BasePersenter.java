@@ -6,4 +6,6 @@ package com.zhou.mypowerbee.common;
 
 public interface BasePersenter {
     void start();
+
+    void detach();
 }

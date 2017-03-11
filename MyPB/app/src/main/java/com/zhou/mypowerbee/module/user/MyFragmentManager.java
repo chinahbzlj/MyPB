@@ -45,5 +45,13 @@ public class MyFragmentManager {
 
     }
 
+    public void clear() {
+        if (stack != null && stack.size() != 0){
+            while (stack.isEmpty()){
+                Fragment fragment = (Fragment) stack.pop();
+            }
+        }
+    }
+
 
 }

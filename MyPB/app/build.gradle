@@ -58,11 +58,11 @@ dependencies {
     })
     testCompile 'junit:junit:4.12'
     compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
-    compile 'com.squareup.retrofit2:converter-scalars:2.0.0-beta4'
-    compile 'com.google.code.gson:gson:2.4'
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
+    compile 'com.squareup.retrofit2:converter-scalars:2.2.0'
+    compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.orhanobut:logger:1.15'
     //    compile project(path: ':library')
     compile 'com.jakewharton:butterknife:8.5.1'
@@ -71,6 +71,6 @@ dependencies {
     compile 'com.android.support:design:25.2.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile files('libs/netty-all-4.0.29.Final.jar')
-    compile 'org.greenrobot:greendao:3.0.1'
+    compile 'org.greenrobot:greendao:3.2.0'
     compile 'org.greenrobot:greendao-generator:3.0.0'
 }

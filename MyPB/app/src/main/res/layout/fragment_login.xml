@@ -29,7 +29,7 @@
                 android:id="@+id/login_account"
                 style="@style/login_edit_style"
                 android:hint="@string/account_hint"
-                android:text="z" />
+                android:text="201" />
 
             <View
                 android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                 style="@style/login_edit_style"
                 android:hint="@string/password"
                 android:inputType="textPassword"
-                android:text="qqq" />
+                android:text="20162016" />
 
             <View
                 android:layout_width="match_parent"

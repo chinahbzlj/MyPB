@@ -5,7 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.zhou.mypowerbee.R;
-import com.zhou.mypowerbee.ui.BaseActivity;
+import com.zhou.mypowerbee.common.BaseActivity;
+import com.zhou.mypowerbee.module.main.MainActivity;
 
 /**
  * Created by zhou on 17-3-5.
@@ -43,5 +44,17 @@ public class WelcomeActivity extends BaseActivity implements WelcomeContract.Vie
     @Override
     public void setPersenter(Object persenter) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        persenter.detach();
+    }
+
+    @Override
+    public void syncSuccess() {
+        startActivity(MainActivity.class);
+        this.finish();
     }
 }

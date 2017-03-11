@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/add_device"
+        android:orderInCategory="100"
+        android:title="添加设备"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/unbind_device"
+        android:orderInCategory="100"
+        android:title="解绑设备" />
+    <item
+        android:id="@+id/folder"
+        android:orderInCategory="100"
+        android:title="文件夹" />
+</menu>

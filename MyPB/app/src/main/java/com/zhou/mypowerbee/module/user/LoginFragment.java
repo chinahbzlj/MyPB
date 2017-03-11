@@ -2,16 +2,12 @@ package com.zhou.mypowerbee.module.user;
 
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.EditText;
 
 import com.zhou.mypowerbee.R;
-import com.zhou.mypowerbee.sdk.core.HttpEngine;
-import com.zhou.mypowerbee.sdk.core.ServiceEngiine;
-import com.zhou.mypowerbee.ui.BaseFragment;
+import com.zhou.mypowerbee.common.BaseFragment;
 import com.zhou.mypowerbee.util.ToastUtil;
 import com.zhou.mypowerbee.util.ValidateUtil;
 
@@ -25,6 +21,7 @@ public class LoginFragment extends BaseFragment implements UserContract.View {
     private UserContract.Persenter persenter;
     private EditText loginAccountEdittext;
     private EditText loginPassEdittext;
+    private Context context;
 
 
     @Override
@@ -69,6 +66,7 @@ public class LoginFragment extends BaseFragment implements UserContract.View {
                 break;
             case R.id.btn_sign_up:
                 SignFragment fragment = new SignFragment();
+                fragment.setContext(context);
                 persenter.replaceView(fragment);
                 ((LoginSignActivity) getActivity()).getMyFragmentManager().setFragment(fragment);
                 break;
@@ -115,8 +113,11 @@ public class LoginFragment extends BaseFragment implements UserContract.View {
 
     @Override
     public void loginSuccess() {
-        ((LoginSignActivity)getActivity()).loginSucces();
+        ((LoginSignActivity) context).loginSucces();
     }
 
 
+    public void setContext(Context context) {
+        this.context = context;
+    }
 }
