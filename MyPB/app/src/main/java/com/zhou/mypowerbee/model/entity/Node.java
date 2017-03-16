@@ -11,7 +11,6 @@ import org.greenrobot.greendao.annotation.Id;
 public class Node {
     private String uuid;
     private String cid;
-    @Id
     private String nid;
     private int type;
     private String name;

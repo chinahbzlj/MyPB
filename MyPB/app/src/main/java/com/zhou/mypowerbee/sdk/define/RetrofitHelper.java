@@ -21,6 +21,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -121,6 +122,7 @@ public class RetrofitHelper {
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
                 .build();
     }
 
@@ -136,9 +138,11 @@ public class RetrofitHelper {
                         .build();
                 Response response = chain.proceed(request);
                 looger(request, response);
+
                 return chain.proceed(request);
             }
         };
+//        Callback
         Context context = MyApplication.getInstance().getApplicationContext();
         File[] file = context.getExternalCacheDirs();
         if (headerOkHttpClient != null)

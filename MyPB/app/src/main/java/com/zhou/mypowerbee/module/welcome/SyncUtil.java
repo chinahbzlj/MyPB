@@ -78,7 +78,7 @@ public class SyncUtil {
     private synchronized void syncCount() {
         Logger.d("前syncCount" + syncCount);
         syncCount--;
-        Logger.d("后syncCount" + syncCount + " isSyncCout" + isSync + " fail" + isSyncFail);
+        Logger.d("后syncCount：" + syncCount + " isSyncCout：" + isSync + " fail：" + isSyncFail);
         if (!isSync || isSyncFail) {
             syncListener.failed();
         }
@@ -130,6 +130,8 @@ public class SyncUtil {
                     public void onError(Throwable e) {
                         super.onError(e);
                         isSyncFail = true;
+                        syncCount();
+
                     }
                 }));
     }
@@ -160,6 +162,7 @@ public class SyncUtil {
                     public void onError(Throwable e) {
                         super.onError(e);
                         isSyncFail = true;
+                        syncCount();
                     }
                 }));
     }
@@ -192,11 +195,13 @@ public class SyncUtil {
                     public void onError(Throwable e) {
                         super.onError(e);
                         isSyncFail = true;
+                        syncCount();
                     }
                 }));
     }
 
     private void syncControlDevice() {
+//        RetrofitHelper.getInstance().getHaveHeaderRxApi().getSensorDevices()
         compositeSubscription.add(RetrofitHelper.getInstance().getHaveHeaderRxApi().getControlDevices()
                 .subscribeOn(Schedulers.io())
                 .subscribe(new BaseSubscriber<DeviceInfoDTO>() {
@@ -223,6 +228,7 @@ public class SyncUtil {
                     public void onError(Throwable e) {
                         super.onError(e);
                         isSyncFail = true;
+                        syncCount();
                     }
                 }));
     }

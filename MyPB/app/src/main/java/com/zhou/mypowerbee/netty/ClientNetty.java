@@ -74,7 +74,17 @@ public class ClientNetty {
                             ChannelPipeline pipeline = socketChannel.pipeline();
                             pipeline.addLast("decoder", new ByteArrayDecoder());            //定义发送数据类型
                             pipeline.addLast("encoder", new ByteArrayEncoder());            //定义接收数据的类型
-//                            pipeline.addLast("handler", new ClientNettyHandler());
+                            pipeline.addLast("handler", new ClientNettyHandler(new NettyClientListener() {
+                                @Override
+                                public void connectSuccess() {
+
+                                }
+
+                                @Override
+                                public void readData(Object data) {
+
+                                }
+                            }));
                             pipeline.addLast("myHandler", new MyHandler());
                         }
                     });

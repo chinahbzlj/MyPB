@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.zhou.mypowerbee.app.MyApplication;
+import com.zhou.mypowerbee.app.MyGlobal;
 import com.zhou.mypowerbee.common.BaseSubscriber;
 import com.zhou.mypowerbee.common.Constants;
 import com.zhou.mypowerbee.model.dto.UserInfoDTO;
@@ -92,6 +93,7 @@ public class UserPersenter implements UserContract.Persenter {
                             Response<UserInfoDTO> userInfoDTOResponse = userInfoDTOResult.response();
                             if (userInfoDTOResponse != null) {
                                 UserInfoDTO userInfoDTO = userInfoDTOResponse.body();
+                                MyGlobal.getMyGlobal().setCurUser(userInfoDTO.Data.toUser());
                                 if (userInfoDTO.isSuccess()) {
                                     sendUserInfoToService(userInfoDTO);
                                 }

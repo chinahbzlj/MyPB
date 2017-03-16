@@ -40,6 +40,7 @@ public class MyService extends Service {
             super(looper);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -125,7 +126,8 @@ public class MyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-//        clientManager.initClientManagerNetty("", "", "");
+
+        clientManager.initClientManagerNetty(SPUtil.getSpUtil().getUserName(), SPUtil.getSpUtil().getToken(), SPUtil.getSpUtil().getUuid());
         Log.d("service","onstartcommand");
         return START_STICKY;
     }

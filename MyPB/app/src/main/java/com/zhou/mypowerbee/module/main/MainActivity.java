@@ -7,15 +7,19 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zhou.mypowerbee.R;
+import com.zhou.mypowerbee.model.entity.User;
 import com.zhou.mypowerbee.service.ServiceEngine;
 import com.zhou.mypowerbee.common.BaseActivity;
+import com.zhou.mypowerbee.util.LoadImageUtil;
 import com.zhou.mypowerbee.util.ToastUtil;
 import com.zhou.mypowerbee.widget.MyTabLayout;
 import com.zhou.mypowerbee.widget.MyTabLayout.MyTabLayoutListener;
@@ -40,6 +44,8 @@ public class MainActivity extends BaseActivity
     MyTabLayout tabLayout;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+    ImageView userHead;
+    TextView userName, userEmail;
     private ExitRunnable exitRunnable = new ExitRunnable();
     private MyFragmentAdapter adapter;
     private MainContract.Persenter persenter;
@@ -65,6 +71,11 @@ public class MainActivity extends BaseActivity
         titleTextView.setText(R.string.home);
         adapter = new MyFragmentAdapter(getSupportFragmentManager());
         adapter.setContext(this);
+
+        View headView = navigationView.getHeaderView(0);
+        userHead = (ImageView) headView.findViewById(R.id.user_head);
+        userName = (TextView) headView.findViewById(R.id.user_name);
+        userEmail = (TextView) headView.findViewById(R.id.user_email);
     }
 
     @Override
@@ -169,7 +180,7 @@ public class MainActivity extends BaseActivity
     public void setViewPager(List<Map<String, Object>> fragments) {
         adapter.setData(fragments);
         myViewPager.setAdapter(adapter);
-        tabLayout.setMyTabLayoutListener( new MyTabLayoutListener() {
+        tabLayout.setMyTabLayoutListener(new MyTabLayoutListener() {
             @Override
             public void setTitle(String title) {
                 titleTextView.setText(title);
@@ -179,6 +190,14 @@ public class MainActivity extends BaseActivity
             }
         });
         tabLayout.setupWithViewPager(myViewPager);
+    }
+
+    @Override
+    public void setHead(User user) {
+        if (!TextUtils.isEmpty(user.getAvatarpath()))
+            LoadImageUtil.loadImage(this, user.getAvatarpath(), userHead);
+        userName.setText(user.getUserid());
+        userEmail.setText(user.getEmail());
     }
 
     private class ExitRunnable implements Runnable {

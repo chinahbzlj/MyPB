@@ -15,6 +15,7 @@ import com.zhou.mypowerbee.model.entity.Device;
 import com.zhou.mypowerbee.model.entity.Node;
 import com.zhou.mypowerbee.model.entity.Terminal;
 import com.zhou.mypowerbee.model.entity.Group;
+import com.zhou.mypowerbee.model.entity.User;
 import com.zhou.mypowerbee.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class MyGlobal {
     private DaoSession daoSession;
     private TerminalDatas terminalDatas;
     private GroupDatas groupDatas;
+    private User user;
 
     private MyGlobal() {
     }
@@ -73,6 +75,19 @@ public class MyGlobal {
             groupDatas = new GroupDatas();
         }
         return groupDatas;
+    }
+
+    public void setCurUser(User user) {
+        this.user = user;
+        daoSession.getUserDao().insert(user);
+    }
+
+    public User getCurUser() {
+        if (user == null) {
+            List<User> list = daoSession.getUserDao().queryBuilder().build().list();
+            user = list.get(0);
+        }
+        return user;
     }
 
     public void saveTerminal(final List<TerminalInfoDTO.TerminalDTO> terminalDTOs) {
@@ -142,8 +157,20 @@ public class MyGlobal {
     }
 
     public void saveAllData() {
-        List<Terminal> terminals = getTerminalDatas().queryAllTerminal();
-        List<Node> nodes = getTerminalDatas().queryAllNode();
-//        List<Device> devices = getTerminalDatas().qu
+        final List<Terminal> terminals = getTerminalDatas().queryAllTerminal();
+        final List<Node> nodes = getTerminalDatas().queryAllNode();
+        final List<Device> devices = getTerminalDatas().queryAllControlDevices();
+        ToastUtil.getInstance().post(new Runnable() {
+            @Override
+            public void run() {
+                daoSession.getTerminalDao().insertInTx(terminals);
+                daoSession.getNodeDao().insertInTx(nodes);
+                daoSession.getDeviceDao().insertInTx(devices);
+            }
+        });
+    }
+
+    public Context getApplicationContext() {
+        return this.mContext;
     }
 }

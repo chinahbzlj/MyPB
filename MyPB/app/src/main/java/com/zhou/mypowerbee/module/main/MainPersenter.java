@@ -3,6 +3,8 @@ package com.zhou.mypowerbee.module.main;
 import android.content.Context;
 
 import com.zhou.mypowerbee.R;
+import com.zhou.mypowerbee.app.MyGlobal;
+import com.zhou.mypowerbee.model.entity.User;
 import com.zhou.mypowerbee.module.main.home.HomeFragment;
 import com.zhou.mypowerbee.module.main.scene.SceneFragment;
 import com.zhou.mypowerbee.module.main.sensor.SensorFragment;
@@ -47,6 +49,8 @@ public class MainPersenter implements MainContract.Persenter {
         sensorFragment.put(mContext.getResources().getString(R.string.fragmennt), new SensorFragment());
         fragments.add(sensorFragment);
         view.setViewPager(fragments);
+        User user = MyGlobal.getMyGlobal().getCurUser();
+        this.view.setHead(user);
     }
 
     @Override

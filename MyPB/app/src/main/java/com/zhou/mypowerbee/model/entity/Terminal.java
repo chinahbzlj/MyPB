@@ -12,7 +12,6 @@ import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
 public class Terminal {
-    @Id
     private String Cid;
     private String Macid;
     private String Name;

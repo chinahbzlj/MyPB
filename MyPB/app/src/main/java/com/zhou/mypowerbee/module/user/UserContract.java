@@ -16,6 +16,8 @@ public interface UserContract {
 
         void loginSuccess();
 
+
+
     }
 
     interface SignView extends View {

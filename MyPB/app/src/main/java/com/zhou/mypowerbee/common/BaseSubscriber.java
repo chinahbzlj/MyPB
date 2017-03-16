@@ -1,6 +1,9 @@
 package com.zhou.mypowerbee.common;
 
 import com.orhanobut.logger.Logger;
+import com.zhou.mypowerbee.util.ToastUtil;
+
+import java.net.SocketTimeoutException;
 
 import rx.Subscriber;
 
@@ -19,5 +22,8 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
     public void onError(Throwable e) {
         e.printStackTrace();
         Logger.d("请求错误:%s", e.getMessage());
+        if(e instanceof SocketTimeoutException){
+            ToastUtil.getInstance().toastShowS("超时");
+        }
     }
 }

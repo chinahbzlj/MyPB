@@ -42,7 +42,7 @@ public class ClientManagerNetty {
                     }
                     if(clientNetty == null)
                         clientNetty = ClientNetty.getInstance();
-//                    clientNetty.connect();
+                    clientNetty.connect("zg118.com",8000);
                 }
             }).start();
         }

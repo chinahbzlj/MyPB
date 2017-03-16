@@ -6,6 +6,7 @@ import com.zhou.mypowerbee.model.entity.Terminal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -77,5 +78,41 @@ public class TerminalDatas {
 
     public List<Node> queryAllNode() {
         return new ArrayList<>(this.nodeMap.values());
+    }
+
+    //获取所有设备
+    public List<Device> queryAllControlDevices() {
+        List<Device> devices = new ArrayList<>();
+        Iterator<Map.Entry<String, List<Device>>> iterator = conrtolDeviceMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, List<Device>> entry = iterator.next();
+            List<Device> deviceList = entry.getValue();
+            if (deviceList == null) continue;
+            for (Device device : deviceList) {
+                if (device.getDevType() == 0 && !device.getDisable()) {
+                    devices.add(device);
+                }
+            }
+
+        }
+        return devices;
+    }
+
+    //
+    public List<Device> queryAllDevices() {
+        List<Device> devices = new ArrayList<>();
+        Iterator<Map.Entry<String, List<Device>>> iterator = conrtolDeviceMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, List<Device>> entry = iterator.next();
+            List<Device> deviceList = entry.getValue();
+            if (deviceList == null) continue;
+            for (Device device : deviceList) {
+                if (device.getDevType() != 521) {
+                    devices.add(device);
+                }
+            }
+
+        }
+        return devices;
     }
 }
